@@ -1,0 +1,79 @@
+#General game configuration
+total_spots = 74
+winning_spots = 57
+number_of_tokens = 4
+total_safe_spots = 20
+
+#Player start position
+PLAYER_START_POSITIONS = {
+    "Player 1": 1,
+    "Player 2": 14,
+    "Player 3": 27,
+    "Player 4": 40
+}
+
+#Welcome Message
+Ludo = ("Let's Play Ludo!")
+print(Ludo)
+
+#Select No of Players
+select_num_players = int(input("Select number of player (2-4):"))
+while select_num_players < 2 or select_num_players > 4:
+    print("Please enter a number between 2 and 4.")
+    select_num_players = int(input("Enter the number of players (2-4): "))
+print(f"selected_num_Player: {select_num_players} Players")
+
+#Enter player Names
+if select_num_players >=2 and select_num_players <= 4:
+    player_names = []
+    for i in range(select_num_players):
+        player_name = input(f"enter name of player {i+1}: ")
+        player_names.append(player_name)
+    
+    print("Player names:", player_names)
+else:
+    print("Please select a number of players between 2 and 4.")
+
+#Store Player Names
+Ludo_players = [player_names]  
+
+#Assigning tokens to players
+a,b,c,d = 'A', 'B', 'C', 'D'
+token = (a,b,c,d)
+Ludo_players = {}
+for player, token in zip(player_names, token):
+    Ludo_players[player] = token
+
+#Randomize who starts
+import random
+starting_player = random.choice(player_names)  
+print(f'{starting_player}, start the game!')
+
+#Rolling Dice Rules
+#Current player can roll dice multiple times if 6 until otherwise - then its the next players turn
+def roll_dice():
+    return random.randint(1, 6)
+# Assume current_player_index is defined
+current_player_index = player_names.index(starting_player)
+
+# Define number of rolls before break
+num_rolls = 0
+max_rolls = 15
+
+while num_rolls < max_rolls:        
+    current_player = player_names[current_player_index]
+    dice_roll = roll_dice()
+    print(f"{current_player} rolled a {dice_roll}")
+
+    num_rolls += 1  # Increment the dice roll counter
+
+    # If player rolls a 6, they get another turn
+    if dice_roll == 6:
+        print(f"{current_player} rolls again!")
+        continue  # Skip switching players and allow the same player to roll again
+
+    # Move to the next player
+    current_player_index = (current_player_index + 1) % len(player_names)
+
+print("Game over after 15 rolls.")
+#Rolling a Dice and moving tokens
